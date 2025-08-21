@@ -11,6 +11,7 @@ Reference materials:
 - [Feature generation](https://github.com/bitovi/ai-enablement-prompts/tree/main/writing-code/generate-feature) workflow 
 - Example [Jira ticket](https://bitovi-training.atlassian.net/browse/USER-13) used in this repo
 - [Figma designs](https://www.figma.com/design/TvHxpQ3z4Zq5JWOVUkgLlU/Tasks-Search-and-Filter?m=auto&t=ehht6F82l82y3XIW-6)
+- **[Copilot Preparation Guide](./COPILOT_PREPARATION.md)** - Complete setup and troubleshooting guide for AI coding agents
 
 ## What you’ll do in this demo
 

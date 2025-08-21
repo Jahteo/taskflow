@@ -36,7 +36,7 @@ export async function createTask(formData: FormData) {
         });
         revalidatePath("/tasks");
         return { error: null, success: true, message: "Task created successfully!" };
-    } catch (e) {
+    } catch {
         return { error: "Failed to create task.", success: false, message: "Failed to create task." };
     }
 }
@@ -52,7 +52,7 @@ export async function getAllTasks() {
             orderBy: { createdAt: "desc" },
         });
         return { tasks, error: null };
-    } catch (e) {
+    } catch {
         return { tasks: [], error: "Failed to fetch tasks." };
     }
 }
@@ -63,7 +63,7 @@ export async function deleteTask(taskId: number) {
         await prisma.task.delete({ where: { id: taskId } });
         revalidatePath("/tasks");
         return { error: null };
-    } catch (e) {
+    } catch {
         return { error: "Failed to delete task." };
     }
 }
@@ -74,7 +74,7 @@ export async function updateTaskStatus(taskId: number, status: string) {
         await prisma.task.update({ where: { id: taskId }, data: { status } });
         revalidatePath("/tasks");
         return { error: null };
-    } catch (e) {
+    } catch {
         return { error: "Failed to update task status." };
     }
 }
@@ -108,7 +108,7 @@ export async function updateTask(taskId: number, formData: FormData) {
         });
         revalidatePath("/tasks");
         return { error: null, success: true, message: "Task updated successfully!" };
-    } catch (e) {
+    } catch {
         return { error: "Failed to update task.", success: false };
     }
 }
@@ -174,7 +174,7 @@ export async function getTeamStats() {
                 : null,
             error: null,
         };
-    } catch (e) {
+    } catch {
         return {
             totalMembers: 0,
             openTasks: 0,
