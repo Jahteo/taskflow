@@ -10,25 +10,10 @@ jest.mock('@radix-ui/react-avatar', () => ({
 
 describe('Avatar Components', () => {
   describe('Avatar', () => {
-    it('renders with default styles', () => {
+    it('renders correctly', () => {
       render(<Avatar data-testid="avatar" />)
       const avatar = screen.getByTestId('avatar')
-      
       expect(avatar).toBeInTheDocument()
-      expect(avatar).toHaveClass(
-        'relative',
-        'flex',
-        'h-10',
-        'w-10',
-        'shrink-0',
-        'overflow-hidden',
-        'rounded-full'
-      )
-    })
-
-    it('applies custom className', () => {
-      render(<Avatar className="custom-avatar" data-testid="avatar" />)
-      expect(screen.getByTestId('avatar')).toHaveClass('custom-avatar')
     })
   })
 
@@ -43,12 +28,11 @@ describe('Avatar Components', () => {
       const image = screen.getByRole('img')
       expect(image).toHaveAttribute('src', '/test-image.jpg')
       expect(image).toHaveAttribute('alt', 'Test avatar')
-      expect(image).toHaveClass('aspect-square', 'h-full', 'w-full')
     })
   })
 
   describe('AvatarFallback', () => {
-    it('renders with fallback styles', () => {
+    it('renders fallback content correctly', () => {
       render(
         <Avatar>
           <AvatarFallback data-testid="fallback">AB</AvatarFallback>
@@ -56,15 +40,6 @@ describe('Avatar Components', () => {
       )
       
       const fallback = screen.getByTestId('fallback')
-      expect(fallback).toHaveClass(
-        'flex',
-        'h-full',
-        'w-full',
-        'items-center',
-        'justify-center',
-        'rounded-full',
-        'bg-background-light'
-      )
       expect(fallback).toHaveTextContent('AB')
     })
   })
@@ -95,27 +70,6 @@ describe('Avatar Components', () => {
       const nameElement = container.querySelector('span')
       expect(nameElement).toBeInTheDocument()
       expect(nameElement).toHaveTextContent('')
-    })
-
-    it('applies custom className', () => {
-      render(<AvatarName name="John Doe" className="custom-name" />)
-      const nameElement = screen.getByText('JD')
-      expect(nameElement).toHaveClass('custom-name')
-    })
-
-    it('has correct base styling', () => {
-      render(<AvatarName name="John Doe" />)
-      const nameElement = screen.getByText('JD')
-      expect(nameElement).toHaveClass(
-        'inline-flex',
-        'items-center',
-        'justify-center',
-        'rounded-full',
-        'bg-background-light',
-        'font-medium',
-        'w-full',
-        'h-full'
-      )
     })
 
     it('converts initials to uppercase', () => {

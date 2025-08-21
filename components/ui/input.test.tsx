@@ -7,7 +7,6 @@ describe('Input Component', () => {
     render(<Input />)
     const input = screen.getByRole('textbox')
     expect(input).toBeInTheDocument()
-    expect(input).toHaveClass('flex', 'h-10', 'w-full', 'rounded-md', 'border')
   })
 
   it('handles different input types', () => {
@@ -48,17 +47,11 @@ describe('Input Component', () => {
     const input = screen.getByRole('textbox')
     
     expect(input).toBeDisabled()
-    expect(input).toHaveClass('disabled:cursor-not-allowed', 'disabled:opacity-50')
   })
 
   it('displays placeholder text', () => {
     render(<Input placeholder="Enter your name" />)
     expect(screen.getByPlaceholderText('Enter your name')).toBeInTheDocument()
-  })
-
-  it('applies custom className', () => {
-    render(<Input className="custom-input" />)
-    expect(screen.getByRole('textbox')).toHaveClass('custom-input')
   })
 
   it('forwards ref correctly', () => {

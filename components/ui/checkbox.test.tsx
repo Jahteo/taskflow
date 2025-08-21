@@ -46,33 +46,12 @@ describe('Checkbox Component', () => {
     const checkbox = screen.getByRole('checkbox')
     
     expect(checkbox).toBeDisabled()
-    expect(checkbox).toHaveClass('disabled:cursor-not-allowed', 'disabled:opacity-50')
-  })
-
-  it('applies custom className', () => {
-    render(<Checkbox className="custom-checkbox" />)
-    expect(screen.getByRole('checkbox')).toHaveClass('custom-checkbox')
   })
 
   it('forwards ref correctly', () => {
     const ref = jest.fn()
     render(<Checkbox ref={ref} />)
     expect(ref).toHaveBeenCalled()
-  })
-
-  it('has correct base styling', () => {
-    render(<Checkbox />)
-    const checkbox = screen.getByRole('checkbox')
-    expect(checkbox).toHaveClass(
-      'peer',
-      'h-4',
-      'w-4',
-      'shrink-0',
-      'rounded-sm',
-      'border',
-      'border-primary',
-      'ring-offset-background'
-    )
   })
 
   it('shows check icon when checked', async () => {

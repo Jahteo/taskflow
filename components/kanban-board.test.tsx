@@ -3,8 +3,22 @@ import { render, screen } from '@testing-library/react'
 // Mock complex dependencies
 jest.mock('@hello-pangea/dnd', () => ({
   DragDropContext: ({ children }: any) => <div data-testid="drag-drop-context">{children}</div>,
-  Droppable: ({ children }: any) => <div data-testid="droppable">{children({ provided: { innerRef: () => {}, droppableProps: {} }, snapshot: { isDraggingOver: false } })}</div>,
-  Draggable: ({ children }: any) => <div data-testid="draggable">{children({ provided: { innerRef: () => {}, draggableProps: {}, dragHandleProps: {} }, snapshot: { isDragging: false } })}</div>,
+  Droppable: ({ children }: any) => (
+    <div data-testid="droppable">
+      {children({ 
+        provided: { innerRef: () => {}, droppableProps: {} }, 
+        snapshot: { isDraggingOver: false } 
+      })}
+    </div>
+  ),
+  Draggable: ({ children }: any) => (
+    <div data-testid="draggable">
+      {children({ 
+        provided: { innerRef: () => {}, draggableProps: {}, dragHandleProps: {} }, 
+        snapshot: { isDragging: false } 
+      })}
+    </div>
+  ),
 }))
 
 jest.mock('@/components/ui/card', () => ({
@@ -31,64 +45,6 @@ jest.mock('@/app/(dashboard)/tasks/actions', () => ({
 
 jest.mock('@/lib/fonts', () => ({
   poppins: { className: 'poppins-font' },
-}))
-
-// Mock the KanbanBoard with a simplified version
-jest.mock('./kanban-board', () => ({
-  KanbanBoard: ({ initialData }: any) => {
-    const columns = Object.entries(initialData)
-    
-    return (
-      <div data-testid="kanban-board" className="flex gap-6">
-        {columns.map(([columnId, column]: [string, any]) => (
-          <div key={columnId} data-testid={`column-${columnId}`} className="w-80">
-            <div data-testid="card">
-              <div data-testid="card-header">
-                <h3 data-testid="card-title">
-                  {column.title}
-                  <span data-testid="badge" data-variant="secondary">
-                    {column.tasks.length}
-                  </span>
-                </h3>
-              </div>
-              <div data-testid="card-content" className="space-y-3">
-                {column.tasks.map((task: any) => (
-                  <div key={task.id} data-testid={`task-${task.id}`}>
-                    <div data-testid="card">
-                      <div data-testid="card-content">
-                        <div className="space-y-3">
-                          <div className="flex items-start justify-between gap-2">
-                            <h4 className="font-medium text-sm">{task.name}</h4>
-                            <span 
-                              data-testid="badge" 
-                              data-variant={
-                                task.priority === 'high' ? 'destructive' :
-                                task.priority === 'medium' ? 'default' : 'secondary'
-                              }
-                              className="text-xs capitalize"
-                            >
-                              {task.priority}
-                            </span>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div data-testid="avatar">
-                              <span data-testid="avatar-name">
-                                {task.assignee?.name || 'Unassigned'}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    )
-  },
 }))
 
 import { KanbanBoard } from './kanban-board'
