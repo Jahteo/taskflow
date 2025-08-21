@@ -3,7 +3,7 @@ import {
   Card, 
   CardHeader, 
   CardFooter, 
-  CardTitle, 
+  CardHeading, 
   CardDescription, 
   CardContent 
 } from './card'
@@ -37,9 +37,9 @@ describe('Card Components', () => {
     })
   })
 
-  describe('CardTitle', () => {
+  describe('CardHeading', () => {
     it('renders title text', () => {
-      render(<CardTitle data-testid="title">Title text</CardTitle>)
+      render(<CardHeading data-testid="title">Title text</CardHeading>)
       const title = screen.getByTestId('title')
       expect(title).toHaveTextContent('Title text')
     })
@@ -74,7 +74,7 @@ describe('Card Components', () => {
       render(
         <Card data-testid="full-card">
           <CardHeader>
-            <CardTitle>Test Title</CardTitle>
+            <CardHeading>Test Title</CardHeading>
             <CardDescription>Test Description</CardDescription>
           </CardHeader>
           <CardContent>

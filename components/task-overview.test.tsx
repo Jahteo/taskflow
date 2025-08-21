@@ -12,7 +12,7 @@ jest.mock('@/components/ui/card', () => ({
   CardContent: ({ children }: any) => <div data-testid="card-content">{children}</div>,
   CardDescription: ({ children }: any) => <div data-testid="card-description">{children}</div>,
   CardHeader: ({ children }: any) => <div data-testid="card-header">{children}</div>,
-  CardTitle: ({ children }: any) => <h2 data-testid="card-title">{children}</h2>,
+  CardHeading: ({ children }: any) => <h2 data-testid="card-title">{children}</h2>,
 }))
 
 jest.mock('@/components/ui/badge', () => ({

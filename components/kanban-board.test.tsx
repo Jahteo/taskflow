@@ -25,7 +25,7 @@ jest.mock('@/components/ui/card', () => ({
   Card: ({ children, className }: any) => <div className={className} data-testid="card">{children}</div>,
   CardContent: ({ children, className }: any) => <div className={className} data-testid="card-content">{children}</div>,
   CardHeader: ({ children, className }: any) => <div className={className} data-testid="card-header">{children}</div>,
-  CardTitle: ({ children, className }: any) => <h3 className={className} data-testid="card-title">{children}</h3>,
+  CardHeading: ({ children, className }: any) => <h3 className={className} data-testid="card-title">{children}</h3>,
 }))
 
 jest.mock('@/components/ui/badge', () => ({

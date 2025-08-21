@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardHeading } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage, AvatarName } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -79,12 +79,12 @@ export function KanbanBoard({ initialData }: { initialData: KanbanData }) {
                 <Card className="bg-transparent border-0 shadow-none">
                   <CardHeader className="pb-3 px-4 pt-4">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-sm font-medium">
+                      <CardHeading className="text-sm font-medium">
                         {column.title}
                         <Badge variant="secondary" className="ml-2">
                           {column.tasks.length}
                         </Badge>
-                      </CardTitle>
+                      </CardHeading>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-3 min-h-[100px] px-4 pb-4">

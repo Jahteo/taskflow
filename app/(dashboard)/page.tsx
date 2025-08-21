@@ -1,5 +1,5 @@
 "use client"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardHeading } from "@/components/ui/card"
 import { Users, CheckCircle, List, Clock } from "lucide-react"
 import { DashboardCharts } from "@/components/dashboard-charts";
 import { TaskOverview } from "@/components/task-overview";
@@ -124,7 +124,7 @@ export default function IndexPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mt-6 mb-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Tasks</CardTitle>
+            <CardHeading className="text-sm font-medium">Total Tasks</CardHeading>
             <List className="h-4 w-4 text-foreground-muted" />
           </CardHeader>
           <CardContent>
@@ -134,7 +134,7 @@ export default function IndexPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Completed Tasks</CardTitle>
+            <CardHeading className="text-sm font-medium">Completed Tasks</CardHeading>
             <CheckCircle className="h-4 w-4 text-foreground-muted" />
           </CardHeader>
           <CardContent>
@@ -146,7 +146,7 @@ export default function IndexPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Tasks</CardTitle>
+            <CardHeading className="text-sm font-medium">Active Tasks</CardHeading>
             <Clock className="h-4 w-4 text-foreground-muted" />
           </CardHeader>
           <CardContent>
@@ -156,7 +156,7 @@ export default function IndexPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Team Members</CardTitle>
+            <CardHeading className="text-sm font-medium">Team Members</CardHeading>
             <Users className="h-4 w-4 text-foreground-muted" />
           </CardHeader>
           <CardContent>
@@ -178,7 +178,7 @@ export default function IndexPage() {
         {/* Task Status Distribution - Pie Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Task Status Distribution</CardTitle>
+            <CardHeading>Task Status Distribution</CardHeading>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -206,7 +206,7 @@ export default function IndexPage() {
         {/* Priority Distribution - Bar Chart */}
         <Card>
           <CardHeader>
-            <CardTitle >Tasks by Priority</CardTitle>
+            <CardHeading >Tasks by Priority</CardHeading>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -224,7 +224,7 @@ export default function IndexPage() {
         {/* Tasks by Assignee - Bar Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Tasks by Assignee</CardTitle>
+            <CardHeading>Tasks by Assignee</CardHeading>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -242,7 +242,7 @@ export default function IndexPage() {
         {/* Tasks Created by User - Bar Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Tasks Created by User</CardTitle>
+            <CardHeading>Tasks Created by User</CardHeading>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
