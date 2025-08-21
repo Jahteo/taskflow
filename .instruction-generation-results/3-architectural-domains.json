@@ -1,0 +1,88 @@
+{
+  "ui": {
+    "required_patterns": {
+      "component-structure": "All React components use TypeScript with explicit types",
+      "styling": "Use shadcn/ui + Radix UI components with Tailwind CSS",
+      "client-components": "Components requiring interactivity marked with 'use client'",
+      "form-handling": "Forms use React 19 useActionState and useFormStatus hooks",
+      "state-management": "Local state with useState, transitions with useTransition"
+    },
+    "architectural_constraints": {
+      "import-patterns": "Use @/ path alias for all internal imports",
+      "component-composition": "Compose UI from shadcn/ui primitives, avoid custom base components",
+      "icon-usage": "Use lucide-react for all icons",
+      "class-names": "Use cn() utility for conditional class joining",
+      "drag-drop": "Use @hello-pangea/dnd for drag and drop functionality"
+    }
+  },
+  "routing": {
+    "required_patterns": {
+      "app-router": "Use Next.js 14 App Router with file-based routing",
+      "route-groups": "Group related routes using (dashboard) pattern",
+      "layouts": "Nested layouts for authentication and dashboard structure",
+      "server-components": "Pages are server components by default"
+    },
+    "architectural_constraints": {
+      "authentication": "Dashboard routes protected by layout-level auth checks",
+      "redirects": "Use next/navigation redirect for server-side redirects",
+      "route-structure": "Feature-based routing under (dashboard) group"
+    }
+  },
+  "data-layer": {
+    "required_patterns": {
+      "orm": "Use Prisma ORM exclusively for database operations",
+      "server-actions": "All data mutations through Next.js server actions",
+      "client-generation": "Prisma client generated to @/app/generated/prisma",
+      "database": "SQLite for local development",
+      "revalidation": "Use revalidatePath after mutations"
+    },
+    "architectural_constraints": {
+      "prisma-instance": "Create new PrismaClient() instance in each server action file",
+      "error-handling": "Return { error, success, message } pattern from server actions",
+      "data-fetching": "Include related data using Prisma include/select patterns",
+      "type-safety": "Import types from generated Prisma client"
+    }
+  },
+  "auth": {
+    "required_patterns": {
+      "session-management": "Custom session-based auth with database tokens",
+      "password-hashing": "Use bcryptjs for password hashing",
+      "cookie-handling": "httpOnly cookies for session storage",
+      "server-actions": "Auth operations through server actions"
+    },
+    "architectural_constraints": {
+      "auth-checks": "Use getCurrentUser() for authentication verification",
+      "logout-flow": "Clear database session and cookie on logout",
+      "protected-routes": "Authentication checked at layout level",
+      "user-context": "No global auth context, check auth per page/action"
+    }
+  },
+  "design-system": {
+    "required_patterns": {
+      "component-variants": "Use class-variance-authority for component variants",
+      "primitive-components": "Build on Radix UI primitives",
+      "consistent-spacing": "Use Tailwind spacing utilities consistently",
+      "typography": "Use defined font imports from lib/fonts.ts"
+    },
+    "architectural_constraints": {
+      "color-system": "Use semantic color tokens (primary, secondary, destructive, etc.)",
+      "component-forwarding": "Use React.forwardRef for all UI components",
+      "slot-pattern": "Support asChild prop using Radix Slot component",
+      "display-names": "Set displayName for all forwarded components"
+    }
+  },
+  "feature-organization": {
+    "required_patterns": {
+      "feature-colocation": "Group related pages, actions, and components by feature",
+      "server-action-files": "Dedicated actions.ts files per feature route",
+      "component-separation": "Separate UI components from page components",
+      "type-definitions": "Centralized types in lib/types.ts"
+    },
+    "architectural_constraints": {
+      "folder-structure": "Features organized under app/(dashboard)/[feature]",
+      "component-naming": "Descriptive component names matching their purpose",
+      "import-organization": "Group imports: React, Next.js, UI components, actions, types",
+      "file-extensions": "Use .tsx for React components, .ts for utilities and actions"
+    }
+  }
+}
