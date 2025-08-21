@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Avatar, AvatarImage, AvatarFallback, AvatarName } from '../avatar'
+import { Avatar, AvatarImage, AvatarFallback, AvatarName } from './avatar'
 
 // Mock Radix UI Avatar components
 jest.mock('@radix-ui/react-avatar', () => ({

@@ -34,7 +34,7 @@ jest.mock('@/lib/fonts', () => ({
 }))
 
 // Mock the KanbanBoard with a simplified version
-jest.mock('../kanban-board', () => ({
+jest.mock('./kanban-board', () => ({
   KanbanBoard: ({ initialData }: any) => {
     const columns = Object.entries(initialData)
     
@@ -91,7 +91,7 @@ jest.mock('../kanban-board', () => ({
   },
 }))
 
-import { KanbanBoard } from '../kanban-board'
+import { KanbanBoard } from './kanban-board'
 
 describe('KanbanBoard Component', () => {
   const mockInitialData = {

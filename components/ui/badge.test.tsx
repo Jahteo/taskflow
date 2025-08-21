@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { Badge } from '../badge'
+import { Badge } from './badge'
 
 describe('Badge Component', () => {
   it('renders with default props', () => {

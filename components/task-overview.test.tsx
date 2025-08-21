@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { TaskOverview } from '../task-overview'
+import { TaskOverview } from './task-overview'
 
 // Mock the UI components
 jest.mock('@/components/ui/avatar', () => ({

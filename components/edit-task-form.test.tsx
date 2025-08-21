@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 // Mock the EditTaskForm with a simplified version
-jest.mock('../edit-task-form', () => ({
+jest.mock('./edit-task-form', () => ({
   EditTaskForm: ({ task, onFinish }: any) => {
     return (
       <div data-testid="edit-task-form-container">
@@ -63,7 +63,7 @@ jest.mock('../edit-task-form', () => ({
   },
 }))
 
-import { EditTaskForm } from '../edit-task-form'
+import { EditTaskForm } from './edit-task-form'
 
 describe('EditTaskForm Component', () => {
   const mockTask = {

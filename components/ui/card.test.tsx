@@ -6,7 +6,7 @@ import {
   CardTitle, 
   CardDescription, 
   CardContent 
-} from '../card'
+} from './card'
 
 // Mock next/font to avoid Google Fonts issues in tests
 jest.mock('next/font/google', () => ({

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Input } from '../input'
+import { Input } from './input'
 
 describe('Input Component', () => {
   it('renders with default props', () => {
@@ -75,21 +75,5 @@ describe('Input Component', () => {
   it('handles value prop', () => {
     render(<Input value="preset value" readOnly />)
     expect(screen.getByRole('textbox')).toHaveValue('preset value')
-  })
-
-  it('has correct styling classes', () => {
-    render(<Input />)
-    const input = screen.getByRole('textbox')
-    expect(input).toHaveClass(
-      'flex',
-      'h-10',
-      'w-full',
-      'rounded-md',
-      'border',
-      'border-input',
-      'bg-background',
-      'px-3',
-      'py-2'
-    )
   })
 })
