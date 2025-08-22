@@ -59,6 +59,25 @@ describe('Card Components', () => {
       const content = screen.getByTestId('content')
       expect(content).toHaveTextContent('Content text')
     })
+
+    it('renders children when visible is true (default)', () => {
+      render(<CardContent data-testid="content">Content text</CardContent>)
+      const content = screen.getByTestId('content')
+      expect(content).toHaveTextContent('Content text')
+    })
+
+    it('renders children when visible is explicitly true', () => {
+      render(<CardContent data-testid="content" visible={true}>Content text</CardContent>)
+      const content = screen.getByTestId('content')
+      expect(content).toHaveTextContent('Content text')
+    })
+
+    it('does not render children when visible is false', () => {
+      render(<CardContent data-testid="content" visible={false}>Content text</CardContent>)
+      const content = screen.getByTestId('content')
+      expect(content).not.toHaveTextContent('Content text')
+      expect(content).toBeEmptyDOMElement()
+    })
   })
 
   describe('CardFooter', () => {

@@ -23,7 +23,11 @@ jest.mock('@hello-pangea/dnd', () => ({
 
 jest.mock('@/components/ui/card', () => ({
   Card: ({ children, className }: any) => <div className={className} data-testid="card">{children}</div>,
-  CardContent: ({ children, className }: any) => <div className={className} data-testid="card-content">{children}</div>,
+  CardContent: ({ children, className, visible = true }: any) => (
+    <div className={className} data-testid="card-content">
+      {visible ? children : null}
+    </div>
+  ),
   CardHeader: ({ children, className }: any) => <div className={className} data-testid="card-header">{children}</div>,
   CardHeading: ({ children, className }: any) => <h3 className={className} data-testid="card-title">{children}</h3>,
 }))
@@ -221,5 +225,46 @@ describe('KanbanBoard Component', () => {
     expect(screen.getByText('Single Task')).toBeInTheDocument()
     expect(screen.getByText('Test User')).toBeInTheDocument()
     expect(screen.getByText('medium')).toBeInTheDocument()
+  })
+
+  it('hides content for archived tasks', () => {
+    const archivedTaskData = {
+      todo: {
+        id: 'todo',
+        title: 'To Do',
+        tasks: [
+          {
+            id: 1,
+            name: 'Regular Task',
+            description: 'Regular task description',
+            status: 'todo',
+            priority: 'medium',
+            assignee: { name: 'Test User' },
+          },
+          {
+            id: 2,
+            name: 'Archived Task',
+            description: 'Archived task description',
+            status: 'archived',
+            priority: 'low',
+            assignee: { name: 'Test User 2' },
+          },
+        ],
+      },
+    }
+    
+    render(<KanbanBoard initialData={archivedTaskData} />)
+    
+    // Regular task should show content
+    expect(screen.getByText('Regular Task')).toBeInTheDocument()
+    expect(screen.getByText('Test User')).toBeInTheDocument()
+    
+    // Archived task should show the card but not the content
+    const cardContents = screen.getAllByTestId('card-content')
+    // Find the card content for the archived task - it should be empty
+    const archivedCardContent = cardContents.find(content => 
+      content.textContent === '' || !content.textContent?.includes('Archived Task')
+    )
+    expect(archivedCardContent).toBeInTheDocument()
   })
 })

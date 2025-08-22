@@ -98,7 +98,7 @@ export function KanbanBoard({ initialData }: { initialData: KanbanData }) {
                                 snapshot.isDragging && "shadow-lg ring-2 ring-primary",
                               )}
                             >
-                              <CardContent className="p-3">
+                              <CardContent className="p-3" visible={task.status !== "archived"}>
                                 <div className="space-y-3">
                                   <div className="flex items-start justify-between gap-2">
                                     <h4 className={`font-medium text-sm leading-tight ${poppins.className}`}>{task.name}</h4>
