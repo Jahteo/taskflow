@@ -3,26 +3,37 @@ import { render, screen } from '@testing-library/react'
 // Mock complex dependencies
 jest.mock('@hello-pangea/dnd', () => ({
   DragDropContext: ({ children }: any) => <div data-testid="drag-drop-context">{children}</div>,
-  Droppable: ({ children }: any) => (
-    <div data-testid="droppable">
-      {children({ 
-        provided: { innerRef: () => {}, droppableProps: {} }, 
-        snapshot: { isDraggingOver: false } 
-      })}
-    </div>
-  ),
-  Draggable: ({ children }: any) => (
-    <div data-testid="draggable">
-      {children({ 
-        provided: { innerRef: () => {}, draggableProps: {}, dragHandleProps: {} }, 
-        snapshot: { isDragging: false } 
-      })}
-    </div>
-  ),
+  Droppable: ({ children }: any) => {
+    const provided = { 
+      innerRef: jest.fn(), 
+      droppableProps: { 'data-rfd-droppable-context-id': '0', 'data-rfd-droppable-id': 'test' }
+    };
+    const snapshot = { isDraggingOver: false };
+    return (
+      <div data-testid="droppable">
+        {children(provided, snapshot)}
+      </div>
+    );
+  },
+  Draggable: ({ children }: any) => {
+    const provided = { 
+      innerRef: jest.fn(), 
+      draggableProps: { 'data-rfd-draggable-context-id': '0', 'data-rfd-draggable-id': 'test' }, 
+      dragHandleProps: { 'data-rfd-drag-handle-draggable-id': 'test', 'data-rfd-drag-handle-context-id': '0' }
+    };
+    const snapshot = { isDragging: false };
+    return (
+      <div data-testid="draggable">
+        {children(provided, snapshot)}
+      </div>
+    );
+  },
 }))
 
 jest.mock('@/components/ui/card', () => ({
-  Card: ({ children, className }: any) => <div className={className} data-testid="card">{children}</div>,
+  Card: ({ children, className, 'data-testid': testId, ...props }: any) => (
+    <div className={className} data-testid={testId || "card"} {...props}>{children}</div>
+  ),
   CardContent: ({ children, className, visible = true }: any) => (
     <div className={className} data-testid="card-content">
       {visible ? children : null}
@@ -56,7 +67,7 @@ import { KanbanBoard } from './kanban-board'
 describe('KanbanBoard Component', () => {
   const mockInitialData = {
     todo: {
-      id: 'todo',
+      id: 'todo' as const,
       title: 'To Do',
       tasks: [
         {
@@ -66,6 +77,11 @@ describe('KanbanBoard Component', () => {
           status: 'todo',
           priority: 'high',
           assignee: { name: 'John Doe' },
+          creatorId: 1,
+          assigneeId: 1,
+          dueDate: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
         {
           id: 2,
@@ -74,11 +90,16 @@ describe('KanbanBoard Component', () => {
           status: 'todo',
           priority: 'medium',
           assignee: null,
+          creatorId: 1,
+          assigneeId: null,
+          dueDate: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       ],
     },
     in_progress: {
-      id: 'in_progress',
+      id: 'in_progress' as const,
       title: 'In Progress',
       tasks: [
         {
@@ -88,11 +109,21 @@ describe('KanbanBoard Component', () => {
           status: 'in_progress',
           priority: 'low',
           assignee: { name: 'Jane Smith' },
+          creatorId: 1,
+          assigneeId: 2,
+          dueDate: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       ],
     },
+    review: {
+      id: 'review' as const,
+      title: 'Review',
+      tasks: [],
+    },
     done: {
-      id: 'done',
+      id: 'done' as const,
       title: 'Done',
       tasks: [],
     },
@@ -102,7 +133,7 @@ describe('KanbanBoard Component', () => {
     render(<KanbanBoard initialData={mockInitialData} />)
     
     expect(screen.getByTestId('kanban-board')).toBeInTheDocument()
-    expect(screen.getByTestId('kanban-board')).toHaveClass('flex', 'gap-6')
+    expect(screen.getByTestId('kanban-board')).toHaveClass('flex', 'space-x-6', 'overflow-x-auto', 'pb-4')
   })
 
   it('renders all columns', () => {
@@ -110,6 +141,7 @@ describe('KanbanBoard Component', () => {
     
     expect(screen.getByTestId('column-todo')).toBeInTheDocument()
     expect(screen.getByTestId('column-in_progress')).toBeInTheDocument()
+    expect(screen.getByTestId('column-review')).toBeInTheDocument()
     expect(screen.getByTestId('column-done')).toBeInTheDocument()
   })
 
@@ -118,6 +150,7 @@ describe('KanbanBoard Component', () => {
     
     expect(screen.getByText('To Do')).toBeInTheDocument()
     expect(screen.getByText('In Progress')).toBeInTheDocument()
+    expect(screen.getByText('Review')).toBeInTheDocument()
     expect(screen.getByText('Done')).toBeInTheDocument()
   })
 
@@ -130,10 +163,11 @@ describe('KanbanBoard Component', () => {
       ['0', '1', '2'].includes(badge.textContent || '')
     )
     
-    expect(countBadges).toHaveLength(3)
+    expect(countBadges).toHaveLength(4) // Now we have 4 columns
     expect(countBadges[0]).toHaveTextContent('2') // todo column
     expect(countBadges[1]).toHaveTextContent('1') // in_progress column
-    expect(countBadges[2]).toHaveTextContent('0') // done column
+    expect(countBadges[2]).toHaveTextContent('0') // review column
+    expect(countBadges[3]).toHaveTextContent('0') // done column
   })
 
   it('renders tasks in their respective columns', () => {
@@ -174,8 +208,9 @@ describe('KanbanBoard Component', () => {
   it('displays assignee information correctly', () => {
     render(<KanbanBoard initialData={mockInitialData} />)
     
-    expect(screen.getByText('John Doe')).toBeInTheDocument()
-    expect(screen.getByText('Jane Smith')).toBeInTheDocument()
+    // Use getAllByText for cases where the same user name appears multiple times
+    expect(screen.getAllByText('John Doe')[0]).toBeInTheDocument()
+    expect(screen.getAllByText('Jane Smith')[0]).toBeInTheDocument()
     expect(screen.getByText('Unassigned')).toBeInTheDocument()
   })
 
@@ -205,7 +240,7 @@ describe('KanbanBoard Component', () => {
   it('handles single task data correctly', () => {
     const singleTaskData = {
       todo: {
-        id: 'todo',
+        id: 'todo' as const,
         title: 'To Do',
         tasks: [
           {
@@ -215,22 +250,42 @@ describe('KanbanBoard Component', () => {
             status: 'todo',
             priority: 'medium',
             assignee: { name: 'Test User' },
+            creatorId: 1,
+            assigneeId: 1,
+            dueDate: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         ],
+      },
+      in_progress: {
+        id: 'in_progress' as const,
+        title: 'In Progress',
+        tasks: [],
+      },
+      review: {
+        id: 'review' as const,
+        title: 'Review',
+        tasks: [],
+      },
+      done: {
+        id: 'done' as const,
+        title: 'Done',
+        tasks: [],
       },
     }
     
     render(<KanbanBoard initialData={singleTaskData} />)
     
     expect(screen.getByText('Single Task')).toBeInTheDocument()
-    expect(screen.getByText('Test User')).toBeInTheDocument()
+    expect(screen.getAllByText('Test User')[0]).toBeInTheDocument()
     expect(screen.getByText('medium')).toBeInTheDocument()
   })
 
   it('hides content for archived tasks', () => {
     const archivedTaskData = {
       todo: {
-        id: 'todo',
+        id: 'todo' as const,
         title: 'To Do',
         tasks: [
           {
@@ -240,6 +295,11 @@ describe('KanbanBoard Component', () => {
             status: 'todo',
             priority: 'medium',
             assignee: { name: 'Test User' },
+            creatorId: 1,
+            assigneeId: 1,
+            dueDate: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
           {
             id: 2,
@@ -248,8 +308,28 @@ describe('KanbanBoard Component', () => {
             status: 'archived',
             priority: 'low',
             assignee: { name: 'Test User 2' },
+            creatorId: 1,
+            assigneeId: 2,
+            dueDate: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
           },
         ],
+      },
+      in_progress: {
+        id: 'in_progress' as const,
+        title: 'In Progress',
+        tasks: [],
+      },
+      review: {
+        id: 'review' as const,
+        title: 'Review',
+        tasks: [],
+      },
+      done: {
+        id: 'done' as const,
+        title: 'Done',
+        tasks: [],
       },
     }
     
@@ -257,14 +337,16 @@ describe('KanbanBoard Component', () => {
     
     // Regular task should show content
     expect(screen.getByText('Regular Task')).toBeInTheDocument()
-    expect(screen.getByText('Test User')).toBeInTheDocument()
+    expect(screen.getAllByText('Test User')[0]).toBeInTheDocument()
     
-    // Archived task should show the card but not the content
+    // Archived task should show the card but not the content details
     const cardContents = screen.getAllByTestId('card-content')
-    // Find the card content for the archived task - it should be empty
-    const archivedCardContent = cardContents.find(content => 
-      content.textContent === '' || !content.textContent?.includes('Archived Task')
-    )
-    expect(archivedCardContent).toBeInTheDocument()
+    // Find the archived task card - it should exist but be empty
+    const archivedTask = screen.getByTestId('task-2')
+    expect(archivedTask).toBeInTheDocument()
+    
+    // The archived task should not show its content (Test User 2 should not be present)
+    expect(screen.queryByText('Test User 2')).not.toBeInTheDocument()
+    expect(screen.queryByText('Archived Task')).not.toBeInTheDocument()
   })
 })

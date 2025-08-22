@@ -64,13 +64,14 @@ export function KanbanBoard({ initialData }: { initialData: KanbanData }) {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex space-x-6 overflow-x-auto pb-4">
+      <div className="flex space-x-6 overflow-x-auto pb-4" data-testid="kanban-board">
         {Object.values(columns).map((column) => (
           <Droppable key={column.id} droppableId={column.id}>
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
+                data-testid={`column-${column.id}`}
                 className={cn(
                   "flex-shrink-0 w-80 transition-colors rounded-lg",
                   snapshot.isDraggingOver ? "bg-background-light" : "bg-background-dark",
@@ -93,6 +94,7 @@ export function KanbanBoard({ initialData }: { initialData: KanbanData }) {
                         {(provided, snapshot) => (
                           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                             <Card
+                              data-testid={`task-${task.id}`}
                               className={cn(
                                 "cursor-pointer hover:shadow-md transition-shadow",
                                 snapshot.isDragging && "shadow-lg ring-2 ring-primary",

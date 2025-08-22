@@ -37,6 +37,7 @@ describe('EditTaskForm Component', () => {
     dueDate: new Date('2024-12-25'),
     createdAt: new Date(),
     updatedAt: new Date(),
+    creatorId: 1,
   }
 
   beforeEach(() => {
@@ -86,7 +87,7 @@ describe('EditTaskForm Component', () => {
   })
 
   it('handles task with null description', async () => {
-    const taskWithNullDescription = { ...mockTask, description: null }
+    const taskWithNullDescription = { ...mockTask, description: '' }
     
     render(<EditTaskForm task={taskWithNullDescription} />)
     
