@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useActionState } from "react";
 
 import { signup } from "./actions";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardHeading } from "@/components/ui/card";
 import { CheckSquare } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 
 const initialState = { error: null };
 
-async function signupAction(state: any, formData: FormData) {
+async function signupAction(state: { error: string | null }, formData: FormData) {
     const result = await signup(formData);
     return { error: result?.error ?? null };
 }
@@ -37,7 +37,7 @@ export default function SignUpPage() {
                 <CardHeader className="text-center">
                     <div className="flex justify-center items-center mb-4">
                         <CheckSquare className="h-8 w-8 mr-2 text-primary" />
-                        <CardTitle className="text-2xl">TaskFlow</CardTitle>
+                        <CardHeading className="text-2xl">TaskFlow</CardHeading>
                     </div>
                     <CardDescription>Create your account to get started</CardDescription>
                 </CardHeader>

@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardHeading } from "@/components/ui/card"
 import { Users, CheckCircle, ListTodo, Award } from "lucide-react"
 import { getTeamStats } from "@/app/(dashboard)/tasks/actions"
 
@@ -45,7 +45,7 @@ export async function TeamStats() {
         return (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
+              <CardHeading className="text-sm font-medium">{stat.title}</CardHeading>
               <Icon className={`h-4 w-4 ${stat.color}`} />
             </CardHeader>
             <CardContent>

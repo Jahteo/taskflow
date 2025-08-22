@@ -1,7 +1,7 @@
 "use client"
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Legend } from "recharts"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardHeading } from "@/components/ui/card"
 
 interface TaskStats {
   month: string
@@ -13,7 +13,7 @@ export function DashboardCharts({ data }: { data: TaskStats[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Task Overview</CardTitle>
+        <CardHeading>Task Overview</CardHeading>
       </CardHeader>
       <CardContent className="pl-2">
         <ResponsiveContainer width="100%" height={350}>

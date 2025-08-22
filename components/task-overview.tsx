@@ -1,5 +1,5 @@
 import { Avatar, AvatarName } from "@/components/ui/avatar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardHeading } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 import type { Task as PrismaTask, User } from "@/app/generated/prisma/client";
@@ -19,7 +19,7 @@ export function TaskOverview({ tasks }: { tasks: Task[] | null }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recent Tasks</CardTitle>
+        <CardHeading>Recent Tasks</CardHeading>
         <CardDescription>An overview of the most recently created tasks.</CardDescription>
       </CardHeader>
       <CardContent>

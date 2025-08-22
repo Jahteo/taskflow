@@ -1,7 +1,7 @@
 "use client"
 
 import { CreateTaskForm } from "@/components/create-task-form"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardHeading } from "@/components/ui/card"
 import { useRouter } from "next/navigation"
 import { poppins } from "@/lib/fonts"
 
@@ -19,7 +19,7 @@ export default function NewTaskPage() {
       </div>
       <Card className="max-w-2xl">
         <CardHeader>
-          <CardTitle>Task Details</CardTitle>
+          <CardHeading>Task Details</CardHeading>
           <CardDescription>Fill in the information below to create a new task</CardDescription>
         </CardHeader>
         <CardContent>

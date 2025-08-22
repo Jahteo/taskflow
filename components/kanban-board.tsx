@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react"
 import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardHeading } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage, AvatarName } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -64,13 +64,14 @@ export function KanbanBoard({ initialData }: { initialData: KanbanData }) {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex space-x-6 overflow-x-auto pb-4">
+      <div className="flex space-x-6 overflow-x-auto pb-4" data-testid="kanban-board">
         {Object.values(columns).map((column) => (
           <Droppable key={column.id} droppableId={column.id}>
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
+                data-testid={`column-${column.id}`}
                 className={cn(
                   "flex-shrink-0 w-80 transition-colors rounded-lg",
                   snapshot.isDraggingOver ? "bg-background-light" : "bg-background-dark",
@@ -79,12 +80,12 @@ export function KanbanBoard({ initialData }: { initialData: KanbanData }) {
                 <Card className="bg-transparent border-0 shadow-none">
                   <CardHeader className="pb-3 px-4 pt-4">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-sm font-medium">
+                      <CardHeading className="text-sm font-medium">
                         {column.title}
                         <Badge variant="secondary" className="ml-2">
                           {column.tasks.length}
                         </Badge>
-                      </CardTitle>
+                      </CardHeading>
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-3 min-h-[100px] px-4 pb-4">
@@ -93,12 +94,13 @@ export function KanbanBoard({ initialData }: { initialData: KanbanData }) {
                         {(provided, snapshot) => (
                           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                             <Card
+                              data-testid={`task-${task.id}`}
                               className={cn(
                                 "cursor-pointer hover:shadow-md transition-shadow",
                                 snapshot.isDragging && "shadow-lg ring-2 ring-primary",
                               )}
                             >
-                              <CardContent className="p-3">
+                              <CardContent className="p-3" visible={task.status !== "archived"}>
                                 <div className="space-y-3">
                                   <div className="flex items-start justify-between gap-2">
                                     <h4 className={`font-medium text-sm leading-tight ${poppins.className}`}>{task.name}</h4>
